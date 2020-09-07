@@ -1,10 +1,17 @@
-# Dijkstra Path Planner
+# Dijkstra Path Planner for point and rigid robot
 
 ## Overview
 
 This project has two python scripts that generates a 2D map with obstacles and finds a path to travel from a user-defined start and end point.
 <p align="center">
-	<img src="https://github.com/varunasthana92/Dijkstra_Path_Planner/blob/master/sample_outputs/vid_point.gif">
+	<img src="https://github.com/varunasthana92/Dijkstra_Path_Planner/blob/master/sample_outputs/vid_point.gif" width="600">
+	<br>
+	Point Robot
+</p>
+
+<p align="center">
+	<img src="https://github.com/varunasthana92/Dijkstra_Path_Planner/blob/master/sample_outputs/vid_rigid.gif" width="600"><br>
+	Rigid Robot with effective clearance of 6 units
 </p>
 
  __BOTH SCRIPTS REQUIRE PYTHON2.7 TO RUN. PYTHON3 WILL NOT WORK.__ Python 2.7 was used to test the scripts. One script is used for a point robot and the other is used for a rigid robot that has a defined radius and clearance. The code is organized in the following sections:
