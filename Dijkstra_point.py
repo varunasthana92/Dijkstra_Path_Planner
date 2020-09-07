@@ -341,8 +341,8 @@ minCost= 0.0
 idx=0
 
 # set saveVid to TRUE if want to save exploration and path ploting video
-savveVid = True
-if savveVid:
+saveVid = True
+if saveVid:
 	fourcc = cv2.VideoWriter_fourcc(*'MJPG')
 	vw1 = cv2.VideoWriter("output_point.avi", fourcc, 30, (301,201))
 
@@ -370,7 +370,7 @@ while(found != True):
 	graph.updateVisited(parentState)
 	parentId = graph.getOwnId(parentState)
 	compare= parentState == finalState
-	if(savveVid and vid % 100 == 0):
+	if(saveVid and vid % 100 == 0):
 		temp = map1.grid.copy()
 		cv2.circle(temp, (init[1], init[0]), 3, (50,100,100), -1)
 		cv2.circle(temp, (finalState[1], finalState[0]), 3, (0,255,0), -1)
@@ -416,7 +416,7 @@ while(count == 0 and i < len(Path)):
 	startNode = Path[i-1]
 	nextNode = Path[i]
 	cv2.line(map2, (startNode[1],startNode[0]), (nextNode[1],nextNode[0]), (0,0,255), 1)
-	if savveVid:
+	if saveVid:
 		temp = cv2.cvtColor(map2, cv2.COLOR_BGR2RGB)
 		vw1.write(temp)
 	i+=1
@@ -433,7 +433,7 @@ print('Enter any NUMBER to exit: ')
 input()
 plt.ioff()
 map2 = cv2.cvtColor(map2, cv2.COLOR_RGB2BGR)
-if savveVid:
+if saveVid:
 	for i in range (20):
 		vw1.write(map2)
 	vw1.release()
