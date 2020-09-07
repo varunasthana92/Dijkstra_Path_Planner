@@ -1,12 +1,13 @@
-# Dijkstra_Path_Planner
-
-## Dependencies
-* matplotlib.pyplot
-* cv2 (version 3.3)
+# Dijkstra Path Planner
 
 ## Overview
 
-This project has two python scripts that generates a 2D map with obstacles and finds a path to travel from a user-defined start and end point. __BOTH SCRIPTS REQUIRE PYTHON2.7 TO RUN. PYTHON3 WILL NOT WORK.__ Python 2.7 was used to test the scripts. One script is used for a point robot and the other is used for a rigid robot that has a defined radius and clearance. The code is organized in the following sections:
+This project has two python scripts that generates a 2D map with obstacles and finds a path to travel from a user-defined start and end point.
+<p align="center">
+	<img src="https://github.com/varunasthana92/Dijkstra_Path_Planner/blob/master/sample_outputs/vid_point.gif">
+</p>
+
+ __BOTH SCRIPTS REQUIRE PYTHON2.7 TO RUN. PYTHON3 WILL NOT WORK.__ Python 2.7 was used to test the scripts. One script is used for a point robot and the other is used for a rigid robot that has a defined radius and clearance. The code is organized in the following sections:
 
 1. Libraries
 2. Maps
@@ -14,6 +15,10 @@ This project has two python scripts that generates a 2D map with obstacles and f
 4. User Input
 5. Exploration
 6. Path Generation
+
+## Dependencies
+* matplotlib.pyplot
+* cv2 (version 3.3)
 
 ## How to run for point robot
 ```

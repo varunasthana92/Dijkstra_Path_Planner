@@ -348,6 +348,15 @@ count = 0
 plt.ion()
 minCost= 0.0
 idx=0
+
+# set saveVid to TRUE if want to save exploration and path ploting video
+savveVid = True
+if savveVid:
+    fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+    vw1 = cv2.VideoWriter("output_rigid.avi", fourcc, 30, (301,201))
+
+vid = 0
+
 while(found != True):
     # current node is termed as parent node    
     for act in moves: # Iterating for all possible 8 actions
@@ -371,12 +380,21 @@ while(found != True):
     graph.updateVisited(parentState)
     parentId = graph.getOwnId(parentState)
     compare= parentState == finalState
+    if(savveVid and vid % 100 == 0):
+        temp = map1.grid.copy()
+        cv2.circle(temp, (init[1], init[0]), 3, (50,100,100), -1)
+        cv2.circle(temp, (finalState[1], finalState[0]), 3, (0,255,0), -1)
+        vw1.write(temp)
+
+    vid+=1
     if(compare.all()):
         found =True
         print('Solved')
         break
 
 # Write explored area to map image
+cv2.circle(map1.grid, (init[1], init[0]), 3, (50,100,100), -1)
+cv2.circle(map1.grid, (finalState[1], finalState[0]), 3, (0,255,0), -1)
 cv2.imwrite('gridExplored.jpg',map1.grid)
 
 # =====SECTION 6: PATH GENERATION=====
@@ -386,28 +404,47 @@ print("Time explored = %2.3f seconds " % (time.time() - start_time))
 # back-tracking for the shortest path and appending the path in result
 ans= graph.getOwnId(finalState)
 map2= cv2.imread('gridExplored.jpg')
-map2 = cv2.cvtColor(map2, cv2.COLOR_BGR2RGB)
 
-if(not count):
-	print '\nYellow area shows all the obstacles and White area is the free space'
-	print 'Red area shows all the explored Nodes (area)'
-	print 'Blue line shows optimal path (traced from goal node to start node)'
 # Draw path
+if(not count):
+    print '\nYellow area shows all the obstacles and White area is the free space'
+    print 'Red area shows all the explored Nodes (area)'
+    print 'Blue line shows optimal path (traced from goal node to start node)'
+
+Path = []
+Path.append(graph.getStates(ans))
 while(ans!=0 and count==0):
-    plt.cla()
+    # plt.cla()
     startNode= graph.getStates(ans)
     ans= graph.getParentId(startNode)
     nextNode= graph.getStates(ans)
-    cv2.line(map2, (startNode[1],startNode[0]),(nextNode[1],nextNode[0]),(0,0,255),1)
-    plt.imshow(map2)
-    plt.show()
-    plt.pause(0.000001)
+    Path.append(nextNode)
+Path.reverse()
+i=1
+map2 = cv2.cvtColor(map2, cv2.COLOR_BGR2RGB)
+while(count == 0 and i < len(Path)):
+    startNode = Path[i-1]
+    nextNode = Path[i]
+    cv2.line(map2, (startNode[1],startNode[0]), (nextNode[1],nextNode[0]), (0,0,255), 1)
+    if savveVid:
+        temp = cv2.cvtColor(map2, cv2.COLOR_BGR2RGB)
+        vw1.write(temp)
+    i+=1
+    # plt.imshow(map2)
+    # plt.show()
+    # plt.pause(0.0000001)
 
 plt.cla()
 plt.imshow(map2)
+
 # User exit
+print('Output saved as a VIDEO "output_rigid.avi"')
 print('Enter any NUMBER to exit: ')
 input()
-map2 = cv2.cvtColor(map2, cv2.COLOR_RGB2BGR)
-cv2.imwrite('back_tracking.jpg',map2)
 plt.ioff()
+map2 = cv2.cvtColor(map2, cv2.COLOR_RGB2BGR)
+if savveVid:
+    for i in range (20):
+        vw1.write(map2)
+    vw1.release()
+cv2.imwrite('back_tracking.jpg',map2)
